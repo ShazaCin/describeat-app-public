@@ -1,0 +1,115 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+
+# Build output
+dist/
+dist-ssr/
+build/
+out/
+*.tsbuildinfo
+
+# Vite cache
+.vite/
+.cache/
+.tmp/
+
+# Test / coverage
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+*.lcov
+
+# Environment files — NEVER commit
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+*.env.local
+
+# ------------------------------------------------------------------
+# Leaks that previously landed in the source repo's working tree or
+# git history. Explicitly listed here so a fresh clone never regains
+# them if a future contributor adds them back.
+# ------------------------------------------------------------------
+aws-exports.ts
+aws-exports.js
+amplify-meta.json
+amplify-meta.local.json
+config.local.json
+*.local.json
+
+# CDK / CloudFormation artefacts that may embed account IDs and ARNs
+cdk.out/
+cdk.context.json
+cf-config.json
+cf-config-utf8.json
+cf-config*.json
+
+# Secrets / credentials
+secrets/
+*.pem
+*.key
+*.crt
+*.p12
+service-account.json
+
+# Service-worker / PWA build artefacts
+dev-dist/
+public/sw.js
+public/workbox-*.js
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Temp
+temp/
+tmp/
+*.bak
+*.orig
+*.rej
+
+# Node / npm noise
+.npm/
+.eslintcache
+.parcel-cache/
+.next/
+.nuxt/
+.svelte-kit/
+.vercel/
+.netlify/
+
+# Misc
+.history/
+.yarn-integrity
