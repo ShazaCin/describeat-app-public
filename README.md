@@ -1,179 +1,122 @@
-# DescribeAT App
+# DescribeAT
 
-> **Open-source release of the DescribeAT listener-facing Progressive Web App (PWA).**
-> DescribeAT is a Shazacin product. This repository is the sanitised, public release.
+> **Open-source audio description sync app for blind and visually impaired viewers.**
+> Tap sync, let your phone listen to what's on TV, and hear a synchronised audio description track.
 
 ---
 
 ## What is DescribeAT?
 
-DescribeAT is an **audio description (AD) sync app** for blind and visually impaired users. When you are watching a movie or TV show on a separate device (TV, laptop, cinema, streaming box), you tap **sync** in DescribeAT. The app records a few seconds of ambient audio, sends the fingerprint to the matching engine, identifies **what you are watching**, and starts playing the matching **AD audio track at the correct offset** so the description lines up with the visuals.
+DescribeAT is a Progressive Web App (PWA) that lets blind and visually impaired people watch any movie or TV show with audio description (AD). Instead of searching for a title in a platform-specific app, the user simply:
 
-The listener experience is: tap once, hear the description. The matching, the offset calculation, and the audio playback are invisible to the user. That invisibility is the design goal.
+1. Opens DescribeAT on their phone
+2. Taps **Sync** — the app records ~10 seconds of ambient audio from the TV
+3. The backend identifies the show and calculates the playback offset
+4. The audio description track plays in sync with what's on screen
 
----
+No app store installation required. It runs in any modern mobile browser.
 
-## Why this repository?
+## Why open source?
 
-DescribeAT was built and operated as a closed commercial product by Shazacin. In 2026 Shazacin decided to open-source the application code so the **blind and visually impaired community** — the people who use the app every day — can contribute fixes, improvements, and new features.
+Audio description should not be a walled garden. No single company can describe every film, in every language, for every market. By open-sourcing DescribeAT, we invite the global community — developers, accessibility advocates, AD narrators, and blind users themselves — to improve the app, expand the catalogue, and bring audio description to more people.
 
-This repository is the **sanitised public release** of the listener-facing PWA. It contains the application code, configuration templates, and documentation needed to:
+The code is released under **AGPLv3 with DCO**. This means:
 
-- Build the PWA from source
-- Run it locally for development
-- Configure it against a self-hosted backend (see [Self-hosting](#self-hosting) below)
-- Contribute changes back to the project
-
-The repository does **not** contain:
-
-- Shazacin's production credentials, account IDs, or service endpoints
-- The audio description content library (separate licence, not redistributed)
-- The closed-source audio fingerprinting engine (see [Tech stack](#tech-stack))
-- Any internal tooling, deployment scripts, or operational data
-
----
-
-## Repo status
-
-This is a **public preview**. The canonical DescribeAT service is operated by Shazacin and is not part of this repository. The code in this repo is a fork of the production app with:
-
-- All hardcoded production values replaced with environment variables
-- All AWS / Cognito / AppSync / Firebase identifiers stripped
-- Internal URLs removed in favour of placeholders
-- Internal tooling and operational scripts removed
-
-The app will not run against a live backend out of the box — you need to point it at your own backend or a self-hosted deployment. See [Self-hosting](#self-hosting).
-
----
-
-## Quick start
-
-### Prerequisites
-
-- Node.js 20 or later
-- npm 10 or later (or pnpm / yarn)
-- A DescribeAT backend reachable via HTTPS (your own deployment, or a local mock)
-
-### Install
-
-```bash
-git clone https://github.com/ShazaCin/describeat-app-public.git
-cd describeat-app-public
-npm install
-```
-
-### Configure
-
-Copy the example environment file and fill in the placeholders:
-
-```bash
-cp .env.example .env.local
-```
-
-The placeholders you need to set are documented in `.env.example`. None of the values should point at Shazacin infrastructure.
-
-### Run the dev server
-
-```bash
-npm run dev
-```
-
-The app is served on `http://localhost:5173` by default.
-
-### Build for production
-
-```bash
-npm run build
-```
-
-The static build is written to `dist/`. Serve it from any static host (S3 + CloudFront, Netlify, Vercel, GitHub Pages, Nginx, Caddy).
-
-### Run the tests
-
-```bash
-npm test
-```
-
----
+- Anyone can use, study, and modify the code
+- If you deploy a modified version as a service, you must share your improvements publicly
+- Contributors sign off with a simple `git commit -s` — no CLA paperwork
+- Audio description tracks, fingerprint data, and reference audio are covered by a separate `LICENSE.media` file
 
 ## Tech stack
 
-- **React 19** — UI framework
-- **Vite** — build tool and dev server
-- **TypeScript** (strict mode) — language
-- **Tailwind CSS** — styling
-- **Workbox** — service worker / offline support (PWA)
-- **Dexie** — IndexedDB wrapper for offline cache
-- **Zustand** — lightweight state management
-- **TanStack Query** — server-state cache
-- **Framer Motion** — animations (used sparingly — respect `prefers-reduced-motion`)
-- **Lucide React** — icon set
+- **React 19** + **Vite 6** + **TailwindCSS 4**
+- **AWS Amplify** (Cognito auth, AppSync GraphQL, S3 storage)
+- **Firebase Cloud Messaging** for push notifications
+- **Service Worker** for offline resilience
+- Accessibility-first design (VoiceOver, TalkBack, NVDA compatible)
 
-### Optional integrations (all configured via environment variables)
+## Getting started
 
-- **AWS Amplify** — optional auth / data layer; the app can run without it
-- **Firebase Cloud Messaging** — optional push notifications
-- **Google Analytics 4** — optional analytics (disabled by default)
+### Prerequisites
 
-### Audio fingerprinting
+- Node.js 20+
+- An AWS account (for Cognito, AppSync, S3) — or a compatible backend
+- A Firebase project (for push notifications)
 
-DescribeAT's sync engine sends a short audio clip to the backend's matching service. The matching algorithm itself is **not** in this repository — the original implementation depends on a closed-source commercial library. The companion [describeat-backend-ecosystem](https://github.com/ShazaCin/describeat-backend-ecosystem) documentation describes the integration points and lists open-source alternatives (e.g. Dejavu) with reduced accuracy.
+### Installation
 
----
+```bash
+# Clone the repo
+git clone https://github.com/ShazaCin/describeat-app-public.git
+cd describeat-app-public
 
-## Self-hosting
+# Install dependencies
+npm install
 
-This repository contains only the PWA. To run a working DescribeAT deployment you also need:
+# Copy the environment template
+cp .env.example .env.local
 
-1. A matching engine (audio fingerprint → title + offset)
-2. A catalogue of titles with AD audio tracks
-3. Auth and a data layer for user state
-4. A CDN for AD audio delivery
+# Fill in your own values (see .env.example for what each variable does)
+# You'll need: Cognito pool IDs, AppSync endpoint, Firebase config
 
-See the companion [**describeat-backend-ecosystem**](https://github.com/ShazaCin/describeat-backend-ecosystem) repository for architecture documentation, deployment patterns, and operational guidance.
+# Start the dev server
+npm run dev
+```
 
-Point this PWA at your backend by setting the API endpoint environment variables described in `.env.example`. The app expects the same JSON / GraphQL contract documented in the backend repository.
+The app will be available at `http://localhost:5173`.
 
----
+### Environment variables
+
+See [`.env.example`](.env.example) for the full list. Key variables:
+
+| Variable | What it does |
+|----------|-------------|
+| `VITE_COGNITO_USER_POOL_ID` | Your Cognito user pool for listener auth |
+| `VITE_APPSYNC_ENDPOINT` | Your AppSync GraphQL endpoint |
+| `VITE_FIREBASE_API_KEY` | Firebase project API key for push notifications |
+
+For backend setup (Cognito, AppSync, S3, the T2S fingerprinting engine), see the [DescribeAT Backend & Ecosystem](https://gitlab.com/shazacin/describeat-backend-ecosystem) documentation.
+
+## Project structure
+
+```
+describeat-app-public/
+├── src/
+│   ├── components/       # UI components
+│   ├── graphql/           # GraphQL queries and mutations
+│   ├── services/          # Firebase messaging, API calls
+│   ├── stores/            # State management
+│   └── sw.ts              # Service worker for offline support
+├── public/                # Static assets, PWA icons
+├── .env.example           # Environment variable template
+├── aws-exports.example.ts # AWS Amplify config template
+└── config/firebase.ts     # Firebase config (reads from env vars)
+```
 
 ## Contributing
 
-We welcome contributions — especially from blind and visually impaired developers who use DescribeAT as their primary screen.
+We welcome contributions from everyone — especially blind and visually impaired developers, AD writers, translators, and testers. Non-code contributions are first-class.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow, coding standards, and DCO sign-off requirement. See [GOVERNANCE.md](GOVERNANCE.md) for how decisions are made and how to advance through the contributor ladder.
+- Read [CONTRIBUTING.md](CONTRIBUTING.md) for setup and PR workflow
+- Read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community standards
+- Check for `good first issue` labels for beginner-friendly tasks
+- Sign off your commits with `git commit -s` (DCO)
 
-For accessibility requirements specifically, see [ACCESSIBILITY.md](ACCESSIBILITY.md) (contributions to this document are encouraged — if the access expectations are unclear or incomplete, that's a bug).
-
----
+All contributions must pass automated accessibility checks (axe-core, jest-axe) and maintain WCAG 2.1 AA as a minimum standard.
 
 ## Security
 
-Report security vulnerabilities privately to the maintainers — **not** via public issues. See [SECURITY.md](SECURITY.md) for the disclosure process, supported versions, and response timeline.
+Found a vulnerability? Please report it privately — see [SECURITY.md](SECURITY.md) for the process. Do not open a public issue for security matters.
 
-Note: this repository is a sanitised public preview. The canonical DescribeAT service has its own security reporting channel that is **not** this repository.
+## License
 
----
+This project is licensed under **AGPLv3** — see [LICENSE](LICENSE) for the full text. Audio description tracks and media content are covered separately under [LICENSE.media](LICENSE.media).
 
-## Licence
+## Related repositories
 
-This project is released under the **GNU Affero General Public License v3.0 (AGPLv3)**. See [LICENSE](LICENSE).
-
-The AGPLv3 means: if you deploy a modified DescribeAT as a service accessible to the public, you must publish your modifications. That is the point. Improvements feed back to the community.
-
-Audio description content, the AD audio tracks themselves, and any associated media are **not** covered by the AGPLv3 and are **not** redistributed from this repository. If you self-host, you are responsible for sourcing AD content for your region under whatever licence applies.
+- [DescribeAT Admin Portal](https://github.com/ShazaCin/describeat-admin-public) — the staff-facing console for managing the catalogue
+- [DescribeAT Backend & Ecosystem](https://gitlab.com/shazacin/describeat-backend-ecosystem) — backend documentation, deployment guides, and architecture reference
 
 ---
 
-## Trademark
-
-**DescribeAT™** and the **Shazacin** name are trademarks of Shazacin. Use of these marks in derivative works, including forks and deployments, requires written permission. See [TRADEMARK.md](TRADEMARK.md).
-
-This repository does not contain the DescribeAT or Shazacin logos. Do not add them to forks without permission.
-
----
-
-## Acknowledgements
-
-DescribeAT was built by the Shazacin team, with original product and engineering work by Shakila and the Sibonga narrator network. This open-source release was prepared by BGC Consultancy in 2026.
-
-The most useful contributors to a project like this are the people who use it every day. Thank you for reading the code, opening issues, sending patches, and teaching us what we got wrong.
+*DescribeAT is a [Shazacin Accessible Media](https://shazacin.com) project. Built with the community.*

@@ -1,0 +1,37 @@
+# LICENSE — Media and Audio Content
+
+> **This document does NOT grant any rights to media content. It restricts them.**
+
+The source code in this repository is licensed under the GNU Affero General Public License v3.0 (AGPLv3) — see the [LICENSE](./LICENSE) file. However, the **audio description tracks, reference audio, fingerprint data, poster images, and other media content** are NOT covered by that license and are NOT distributed with this source code.
+
+---
+
+## What is NOT included in this repository
+
+| Asset type | In this repo? | Notes |
+|------------|---------------|-------|
+| AD track audio files | No | Not redistributed. You must source or produce your own audio description content. |
+| Reference audio (movie/TV soundtracks) | No | Copyrighted by the original rights holders. Not redistributed. |
+| Fingerprint hash databases | No | Generated from reference audio. You must generate your own from content you have rights to. |
+| Poster images / stills | No | Copyrighted by the original rights holders. Not redistributed. |
+| Title metadata (real titles, actors, etc.) | No | Use the admin portal to manage your own catalogue. |
+
+---
+
+## Your responsibilities when deploying DescribeAT
+
+If you deploy DescribeAT, you are responsible for:
+
+1. **Sourcing audio description content** — either producing your own AD tracks or licensing them from content providers under whatever licenses apply in your jurisdiction.
+2. **Complying with copyright law** — audio description tracks are derivative works of the original content. Ensure you have the legal right to produce and distribute AD tracks for the content you describe.
+3. **Generating your own fingerprint database** — the acoustic fingerprinting engine requires a reference database. You must build this from audio content you have the rights to use.
+4. **Hosting your own media** — all media content must be hosted on your own infrastructure (S3, CDN, etc.). No media is distributed with this codebase.
+
+---
+
+## Summary
+
+- **Code:** AGPLv3 — open source, modify and distribute freely under copyleft terms
+- **Media:** All rights reserved by their respective owners — NOT distributed with this code
+
+For questions about licensing, contact the repository maintainers.
