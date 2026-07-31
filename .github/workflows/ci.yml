@@ -16,6 +16,8 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Create aws-exports stub
+        run: cp aws-exports.example.ts aws-exports.ts
       - run: npm run lint
         continue-on-error: true
       - run: npm run type-check
