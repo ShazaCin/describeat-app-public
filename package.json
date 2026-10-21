@@ -28,7 +28,7 @@
     "aws-amplify": "^6.22.2",
     "clsx": "^2.1.1",
     "dexie": "^4.4.6",
-    "firebase": "^12.12.0",
+    "firebase": "^13.0.0",
     "framer-motion": "^11.3.11",
     "lucide-react": "^0.563.0",
     "mp3-mediarecorder": "^4.0.5",
