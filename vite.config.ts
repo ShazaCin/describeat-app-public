@@ -67,11 +67,15 @@ export default defineConfig(({ mode }) => {
       target: 'esnext',
       rollupOptions: {
         output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-            'vendor-amplify': ['aws-amplify', '@aws-amplify/ui-react'],
-            'vendor-framer': ['framer-motion'],
-            'vendor-firebase': ['firebase/app', 'firebase/messaging'],
+          manualChunks(id) {
+            const p = id.replace(/\\/g, '/');
+            if (p.includes('/node_modules/')) {
+              if (/\/node_modules\/(react|react-dom|react-router|react-router-dom|scheduler)(\/|$)/.test(p)) return 'vendor-react';
+              if (/\/node_modules\/(aws-amplify|@aws-amplify\/[^/]+)(\/|$)/.test(p)) return 'vendor-amplify';
+              if (/\/node_modules\/(framer-motion|motion-dom|motion-utils|motion)(\/|$)/.test(p)) return 'vendor-framer';
+              if (/\/node_modules\/(firebase|@firebase\/[^/]+)(\/|$)/.test(p)) return 'vendor-firebase';
+            }
+            return undefined;
           }
         }
       }
