@@ -27,9 +27,9 @@
     "@tanstack/react-query-devtools": "^5.104.3",
     "aws-amplify": "^6.22.2",
     "clsx": "^2.1.1",
-    "dexie": "^4.4.6",
-    "firebase": "^13.0.0",
-    "framer-motion": "^14.3.0",
+    "dexie": "^4.4.7",
+    "firebase": "^13.1.0",
+    "framer-motion": "^14.6.0",
     "lucide-react": "^1.59.0",
     "mp3-mediarecorder": "^4.0.5",
     "react": "^19.3.1",
@@ -38,7 +38,7 @@
     "react-router-dom": "^7.18.4",
     "tailwind-merge": "^3.7.0",
     "vite-plugin-pwa": "^1.2.0",
-    "zustand": "^5.0.15"
+    "zustand": "^5.0.16"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
