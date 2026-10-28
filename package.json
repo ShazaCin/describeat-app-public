@@ -67,7 +67,7 @@
     "@babel/core": "7.29.6",
     "@babel/plugin-transform-modules-systemjs": "7.29.4",
     "@grpc/grpc-js": "1.13.6",
-    "fast-uri": "3.1.8",
+    "fast-uri": "3.1.9",
     "fast-xml-builder": "1.1.7",
     "fast-xml-parser": "5.7.0",
     "js-cookie": "3.0.7",
