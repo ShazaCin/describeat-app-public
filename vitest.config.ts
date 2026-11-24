@@ -8,6 +8,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
     css: true,
-    exclude: ['**/node_modules/**', '**/dist/**', '**/tests/**'],
+    // tests/*.spec.ts are Playwright browser tests, not Vitest tests.
+    exclude: ['**/node_modules/**', '**/dist/**', 'tests/**/*.spec.ts'],
   },
 });
